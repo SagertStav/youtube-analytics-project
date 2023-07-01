@@ -19,7 +19,7 @@ class Channel:
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала.
         Дальше все данные будут подтягиваться по API."""
-        self.channel_id = channel_id
+        self.__channel_id = channel_id
         channel = self.get_service().channels().list(id=channel_id, part='snippet,statistics').execute()
         self.title= channel["items"][0] ['snippet']['title']                         # - название канала
         self.description= channel['items'][0]["snippet"]["description"]              # - описание канала
@@ -27,6 +27,19 @@ class Channel:
         self.subscriber_count = channel['items'][0]["statistics"]["subscriberCount"] # - количество подписчиков
         self.video_count = channel['items'][0]["statistics"]["videoCount"]           # - количество видео
         self.view_count = channel['items'][0]["statistics"]["viewCount"]             # - общее количество просмотров
+
+    # Геттер для channel_id, без создания сеттера
+    @property
+    def channel_id(self):
+        return self.__channel_id
+    @channel_id.setter
+    def channel_id(self,name):
+        """Метод срабатывает при операции присваивания:
+        СИМУЛИРУЮ отсутствие сеттера для .channel_id - для достижения целей ожидаемого поведения main по ДЗ2 """
+        print("AttributeError: property 'channel_id' of 'Channel' object has no setter")
+        # сами переприсваивания игнорирую здесь, ничего не выполняя
+        # (взамен обработки исключений try ... except AttributeError ...
+
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
@@ -40,3 +53,4 @@ class Channel:
         with open(jsn_of_channel_file, 'w') as f:
             #print(self.__dict__)
             json.dump(self.__dict__, f)
+

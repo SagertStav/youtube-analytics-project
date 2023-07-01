@@ -12,6 +12,7 @@ if __name__ == '__main__':
     # менять не можем
     moscowpython.channel_id = 'Новое название'
     # AttributeError: property 'channel_id' of 'Channel' object has no setter
+    print(f"Название канала channel_id не переприсваивается и равно: {moscowpython.channel_id}")
 
     # можем получить объект для работы с API вне класса
     print(Channel.get_service())
