@@ -38,5 +38,5 @@ class Channel:
     def to_json(self, jsn_of_channel_file):
         '''to_json() сохраняет в файл значения атрибутов экземпляра Channel'''
         with open(jsn_of_channel_file, 'w') as f:
-            print(self.__dict__)
+            #print(self.__dict__)
             json.dump(self.__dict__, f)
