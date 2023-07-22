@@ -37,21 +37,10 @@ class PlayList(src.channel.Channel):
 
 
     def __init__(self, playlist_id)  -> None:
-        #part = 'contentDetails, snippet',
-        playlist_videos = self.get_service().playlistItems().list(playlistId=playlist_id,
-                                                       part='snippet',
-
-                                                       maxResults=50).execute()
-        print(playlist_videos)
+        pl_list=self.get_service().playlists().list(id=playlist_id, part='snippet', maxResults=50).execute()
         self.__playlist_id=playlist_id
-        print('title', playlist_videos)
- # Не совсем понятно, как надо было вытащить название плэйлиста ниже:   #https://stackoverflow.com/questions/68648806/how-to-get-the-title-of-a-playlist-from-the-youtube-api
-        #self.title =playlist_videos['items'][0]['snippet']['title'].split('. ')[0]  # название плэй-листа
-        pl_list=self.get_service().playlists().list(channelId=playlist_videos['items'][0]['snippet']['channelId'],
-                                                       part='snippet', maxResults=50).execute()
-        print(pl_list)
+        #Помогло разобраться c заголовком плэйлиста, docs: https://developers.google.com/youtube/v3/docs/playlists/list
         self.title=pl_list['items'][0]['snippet']['title']
-
         self.url="https://www.youtube.com/playlist?list="+playlist_id
 
 
