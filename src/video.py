@@ -21,10 +21,19 @@ class Video(src.channel.Channel):
                                               ).execute()
        #print(video_response)
        self.__video_id = video_id                                                    # id видео
-       self.title:str = video_response['items'][0]['snippet']['title']         # название видео
-       self.url = 'https://www.youtu.be.com/'+video_id                               # ссылка на видео
-       self.view_count: int = video_response['items'][0]['statistics']['viewCount']  # количество просмотров
-       self.like_count: int = video_response['items'][0]['statistics']['likeCount']  # количество лайков
+       try:
+          self.title:str = video_response['items'][0]['snippet']['title']         # название видео
+       except IndexError:
+           if len(video_response['items']) == 0:
+               self.title = None
+               self.url = None
+               self.view_count = None
+               self.like_count = None
+               print(f"На текущий момент видео с кодом '{video_id}' отсутствует!")
+       else:
+          self.url = 'https://www.youtu.be.com/'+video_id                               # ссылка на видео
+          self.view_count: int = video_response['items'][0]['statistics']['viewCount']  # количество просмотров
+          self.like_count: int = video_response['items'][0]['statistics']['likeCount']  # количество лайков
 
     def __str__(self):
         return f"{self.title}"
